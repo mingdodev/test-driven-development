@@ -9,20 +9,17 @@ public class ExpiryDateCalculatorTest {
 
     @Test
     void 만원_납부하면_한달_뒤가_만료일이_된다() {
-        LocalDate billingDate = LocalDate.of(2025, 4, 22);
-        int payAmount = 10_000;
 
+        assertExpiryDate(
+                LocalDate.of(2025, 4, 22), 10_000,
+                LocalDate.of(2025,5,22)
+        );
+    }
+
+    private void assertExpiryDate(LocalDate billingDate, int payAmount, LocalDate expectedExpiryDate) {
         ExpiryDateCalculator cal = new ExpiryDateCalculator();
-        LocalDate expiryDate = cal.calculateExpiryDate(billingDate, payAmount);
+        LocalDate realExpiryDate = cal.calculateExpiryDate(billingDate, payAmount);
 
-        assertEquals(LocalDate.of(2025, 5, 22), expiryDate);
-
-        LocalDate billingDate2 = LocalDate.of(2025, 5, 5);
-        int payAmount2 = 10_000;
-
-        ExpiryDateCalculator cal2 = new ExpiryDateCalculator();
-        LocalDate expiryDate2 = cal.calculateExpiryDate(billingDate2, payAmount2);
-
-        assertEquals(LocalDate.of(2025, 6, 5), expiryDate2);
+        assertEquals(realExpiryDate, expectedExpiryDate);
     }
 }
